@@ -1,4 +1,4 @@
-
+![icon](https://raw.githubusercontent.com/sndrs/Inbox/master/app/icon.png)
 
 Desktop app that wraps Inbox by Gmail](https://inbox.google.com), providing some OS niceties like notifications, a dock icon and badgeing etc.
 
