@@ -1,14 +1,15 @@
-This is desktop app that wraps Inbox by Gmail](https://inbox.google.com), providing some OS niceties like notifications, a dock icon and badgeing etc.
+Desktop app that wraps Inbox by Gmail](https://inbox.google.com), providing some OS niceties like notifications, a dock icon and badgeing etc.
 
 It's very, very early stages of development, but I'm using it.
 
 ## Installation
 
-There's no application yet, you need to build it yourself (there will be when it's finished).
+There's no downloadable app yet, you need to build it yourself (there will be when it's finished).
 
 That's pretty easy though. Checkout the repo, then:
 
 `make install`
+
 `make bundle`
 
 ## Development
