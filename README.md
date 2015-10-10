@@ -1,0 +1,1 @@
+Icon by [jasonzigrino](http://jasonzigrino.deviantart.com/art/Google-Inbox-For-OS-X-515254018)
