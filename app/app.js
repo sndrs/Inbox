@@ -49,7 +49,6 @@ app.on('ready', function() {
     });
 
     mainWindow.on('focus', () => {
-        console.log('focus');
         setTimeout(() => {
             app.dock.setBadge('');
             badgeable = false;
@@ -57,7 +56,6 @@ app.on('ready', function() {
     });
 
     mainWindow.on('blur', () => {
-        console.log('blur');
         badgeable = true;
     })
 });
