@@ -1,5 +1,7 @@
-var Menu = remote.require('menu');
-var MenuItem = remote.require('menu-item');
+const remote = require('remote');
+const app = remote.require('app');
+const Menu = remote.require('menu');
+const MenuItem = remote.require('menu-item');
 
 var template = [{
     label: 'Edit',
@@ -87,7 +89,7 @@ var template = [{
     }, ]
 }, ];
 
-if (process.platform == 'darwin') {
+if (process.platform === 'darwin') {
     app.getName();
     template.unshift({
         label: name,

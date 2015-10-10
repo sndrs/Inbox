@@ -36,7 +36,9 @@ app.on('ready', function() {
         mainWindow.show();
     });
 
-    mainWindow.loadUrl(`file://${__dirname}/index.html`);
+    mainWindow.loadUrl(`file://${__dirname}/webview.html`);
+
+    mainWindow.openDevTools();
 
     mainWindow.on('close', () => {
         fs.writeFileSync(initPath, JSON.stringify(mainWindow.getBounds()));
@@ -47,6 +49,7 @@ app.on('ready', function() {
     });
 
     mainWindow.on('focus', () => {
+        console.log('focus');
         setTimeout(() => {
             app.dock.setBadge('');
             badgeable = false;
@@ -54,6 +57,7 @@ app.on('ready', function() {
     });
 
     mainWindow.on('blur', () => {
+        console.log('blur');
         badgeable = true;
     })
 });

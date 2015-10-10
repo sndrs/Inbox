@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <title>Inbox</title>
+        <style>
+        body {
+            background-color: #4285f4;
+        }
+
+        #webview {
+            position: absolute;
+            top: 22px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            transition: opacity 200ms;
+        }
+        </style>
+    </head>
+
+    <body>
+        <webview src="https://inbox.google.com" allowpopups plugins autosize="on" id="webview" nodeintegration></webview>
+        <script>
+            const webview = document.getElementById('webview');
+
+            // show webview once there's a response of some kind
+            webview.addEventListener('did-get-response-details', showWebView);
+
+            function showWebView() {
+                webview.style.opacity = 1;
+                webview.removeEventListener('did-get-response-details', showWebView);
+            };
+
+            webview.addEventListener('dom-ready', () => {
+                // listen for new mail
+                webview.executeJavaScript(require('./newmail'));
+            });
+
+            // handle links in emails
+            webview.addEventListener('new-window', (e) => {
+                require('shell').openExternal(e.url);
+            });
+
+            // show notification when new mail arrives
+            require('ipc').on('newMail', details => {
+                Notification.requestPermission();
+                new Notification(details.sender, {
+                    title: details.sender,
+                    body: details.subject
+                });
+            });
+
+            // create menubar app menu
+            require('./menu');
+        </script>
+    </body>
+
+</html>
