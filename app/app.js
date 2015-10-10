@@ -38,7 +38,7 @@ app.on('ready', function() {
 
     mainWindow.loadUrl(`file://${__dirname}/webview.html`);
 
-    mainWindow.openDevTools();
+    // mainWindow.openDevTools();
 
     mainWindow.on('close', () => {
         fs.writeFileSync(initPath, JSON.stringify(mainWindow.getBounds()));
