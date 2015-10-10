@@ -1,0 +1,22 @@
+{
+  "name": "inbox",
+  "scripts": {
+    "build": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sndrs/Inbox.git"
+  },
+  "author": "Alex Sanders",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sndrs/Inbox/issues"
+  },
+  "homepage": "https://github.com/sndrs/Inbox#readme",
+  "devDependencies": {
+    "electron-packager": "^5.1.0"
+  },
+  "dependencies": {
+    "electron-prebuilt": "^0.33.7"
+  }
+}
