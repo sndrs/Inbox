@@ -1,8 +1,6 @@
-var remote = require('remote');
 var Menu = remote.require('menu');
 var MenuItem = remote.require('menu-item');
 
-var app = remote.require('app');
 var template = [{
     label: 'Edit',
     submenu: [{

@@ -1,6 +1,7 @@
 'use babel';
 
 import app from 'app';
+import ipc from 'ipc';
 import BrowserWindow from 'browser-window';
 import path from "path";
 import fs from "fs";
@@ -9,7 +10,7 @@ require('crash-reporter').start();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow = null;
+let mainWindow = null, badgeable = false;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -31,8 +32,6 @@ app.on('ready', function() {
         show: false
     }, bounds));
 
-    mainWindow.openDevTools();
-
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.show();
     });
@@ -46,6 +45,22 @@ app.on('ready', function() {
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
+
+    mainWindow.on('focus', () => {
+        setTimeout(() => {
+            app.dock.setBadge('');
+            badgeable = false;
+        }, 1000);
+    });
+
+    mainWindow.on('blur', () => {
+        badgeable = true;
+    })
 });
 
-app.dock.setBadge('•')
+ipc.on('newMail', (e, details) => {
+    if (badgeable) {
+        app.dock.setBadge('•');
+        mainWindow.webContents.send('newMail', details);
+    }
+});

@@ -7,7 +7,8 @@
     body {
         background-color: #4285f4;
     }
-    webview {
+
+    #webview {
         position: absolute;
         top: 22px;
         left: 0;
@@ -20,41 +21,13 @@
 </head>
 
 <body>
+    <script>
+        const remote = require('remote');
+        const app = remote.require('app');
+    </script>
     <script src="menu.js"></script>
     <webview src="https://inbox.google.com" allowpopups plugins autosize="on" id="webview" nodeintegration></webview>
-    <script>
-    var webview = document.getElementById('webview');
-    var remote = require('remote');
-
-    webview.addEventListener('new-window', function(e) {
-      require('shell').openExternal(e.url);
-    });
-
-    function showWebView() {
-        webview.style.opacity = 1;
-        webview.removeEventListener('did-get-response-details', showWebView);
-    }
-
-    webview.addEventListener('ipc-message', function(event) {
-      console.log(event.channel);
-      // Prints "pong"
-    });
-
-    webview.addEventListener('did-get-response-details', showWebView);
-    webview.addEventListener('did-finish-load', () => {
-        webview.executeJavaScript(`
-            var ipc = require('ipc');
-            var observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    ipc.sendToHost(mutation.target.innerText);
-                });
-            });
-            observer.observe(document.querySelector('[role=application]'), {childList: true, subtree: true});
-            ipc.on('ping', function() {});
-        `);
-        // webview.send('ping');
-    })
-    </script>
+    <script src="webview.js"></script>
 </body>
 
 </html>
