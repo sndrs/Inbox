@@ -1,6 +1,6 @@
 ![icon](https://raw.githubusercontent.com/sndrs/Inbox/master/app/icon.png)
 
-Desktop app that wraps Inbox by Gmail](https://inbox.google.com), providing some OS niceties like notifications, a dock icon and badgeing etc.
+Desktop app that wraps [Inbox by Gmail](https://inbox.google.com), providing some OS niceties like notifications, a dock icon and badgeing etc.
 
 It's very, very early stages of development, but I'm using it.
 
