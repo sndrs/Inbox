@@ -10,7 +10,7 @@ require('crash-reporter').start();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow = null, badgeable = false;
+let mainWindow = null, focussed = true, unreadMail = [];
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -38,7 +38,7 @@ app.on('ready', function() {
 
     mainWindow.loadUrl(`file://${__dirname}/webview.html`);
 
-    // mainWindow.openDevTools();
+    mainWindow.openDevTools();
 
     mainWindow.on('close', () => {
         fs.writeFileSync(initPath, JSON.stringify(mainWindow.getBounds()));
@@ -49,20 +49,26 @@ app.on('ready', function() {
     });
 
     mainWindow.on('focus', () => {
-        setTimeout(() => {
-            app.dock.setBadge('');
-            badgeable = false;
-        }, 1000);
+        focussed = true;
     });
 
     mainWindow.on('blur', () => {
-        badgeable = true;
+        focussed = false;
     })
 });
 
-ipc.on('newMail', (e, details) => {
-    if (badgeable) {
-        app.dock.setBadge('•');
-        mainWindow.webContents.send('newMail', details);
-    }
+ipc.on('INBOX_CHANGE', (e) => {
+    mainWindow.webContents.send('INBOX_CHANGE')
+});
+
+ipc.on('MAIL_STATUS', (e, data) => {
+    console.log(data);
+    app.dock.setBadge(data.count);
+    focussed || data.mail.filter((mail => !unreadMail.any((_mail) => _mail == mail))).forEach((newMail) => {
+        mainWindow.webContents.send('notify', {
+            title: newMail.subject,
+            body: newMail.sender
+        });
+    });
+    unreadMail = data.mail;
 });

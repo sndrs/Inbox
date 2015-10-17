@@ -8,7 +8,7 @@
             background-color: #4285f4;
         }
 
-        #webview {
+        #mail-view {
             position: absolute;
             top: 22px;
             left: 0;
@@ -17,39 +17,57 @@
             opacity: 0;
             transition: opacity 200ms;
         }
+
+        #status-view {
+            z-index: 200;
+            height: 300px;
+            width: 400px;
+            position: absolute;
+        }
         </style>
     </head>
 
     <body>
-        <webview src="https://inbox.google.com" allowpopups plugins autosize="on" id="webview" nodeintegration></webview>
+        <webview src="https://inbox.google.com" allowpopups plugins autosize="on" id="mail-view" nodeintegration></webview>
+        <webview src="https://mail.google.com/mail/feed/atom" id="status-view" nodeintegration></webview>
         <script>
-            const webview = document.getElementById('webview');
+            const mailView = document.getElementById('mail-view');
+            const ipc = require('ipc');
 
             // show webview once there's a response of some kind
-            webview.addEventListener('did-get-response-details', showWebView);
+            mailView.addEventListener('did-get-response-details', showMailView);
 
-            function showWebView() {
-                webview.style.opacity = 1;
-                webview.removeEventListener('did-get-response-details', showWebView);
+            function showMailView() {
+                mailView.style.opacity = 1;
+                mailView.removeEventListener('did-get-response-details', showMailView);
             };
 
-            webview.addEventListener('dom-ready', () => {
+            mailView.addEventListener('dom-ready', () => {
                 // listen for new mail
-                webview.executeJavaScript(require('./newmail'));
+                mailView.executeJavaScript(require('./change-observer'));
             });
 
             // handle links in emails
-            webview.addEventListener('new-window', (e) => {
+            mailView.addEventListener('new-window', (e) => {
                 require('shell').openExternal(e.url);
             });
 
             // show notification when new mail arrives
-            require('ipc').on('newMail', details => {
+            ipc.on('notify', data => {
                 Notification.requestPermission();
-                new Notification(details.sender, {
-                    title: details.sender,
-                    body: details.subject
-                });
+                new Notification(data.title, data);
+            });
+
+
+
+            ipc.on('INBOX_CHANGE', (e) => {
+                console.log('inbox mutation');
+            });
+
+            const statusView = document.getElementById('status-view');
+            statusView.addEventListener('dom-ready', () => {
+                statusView.executeJavaScript(require('./get-mail-status'));
+                console.log('domready');
             });
 
             // create menubar app menu

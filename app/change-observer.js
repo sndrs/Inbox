@@ -9,10 +9,7 @@ var observer = function () {
                     )
                 );
                 if (newMailNode.length) {
-                    ipc.send('newMail', {
-                        sender: newMailNode[0].querySelector('[email]').innerText,
-                        subject: newMailNode[0].querySelector('.bg').innerText
-                    })
+                    ipc.send('INBOX_CHANGE');
                 };
             };
         });
