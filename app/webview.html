@@ -19,17 +19,16 @@
         }
 
         #status-view {
-            z-index: 200;
-            height: 300px;
-            width: 400px;
+            visibility: hidden;
             position: absolute;
+            bottom: 0;
         }
         </style>
     </head>
 
     <body>
-        <webview src="https://inbox.google.com" allowpopups plugins autosize="on" id="mail-view" nodeintegration></webview>
         <webview src="https://mail.google.com/mail/feed/atom" id="status-view" nodeintegration></webview>
+        <webview src="https://inbox.google.com" allowpopups plugins autosize="on" id="mail-view" nodeintegration></webview>
         <script>
             const mailView = document.getElementById('mail-view');
             const ipc = require('ipc');
@@ -53,21 +52,19 @@
             });
 
             // show notification when new mail arrives
-            ipc.on('notify', data => {
+            ipc.on('NOTIFY', data => {
                 Notification.requestPermission();
                 new Notification(data.title, data);
-            });
-
-
-
-            ipc.on('INBOX_CHANGE', (e) => {
-                console.log('inbox mutation');
             });
 
             const statusView = document.getElementById('status-view');
             statusView.addEventListener('dom-ready', () => {
                 statusView.executeJavaScript(require('./get-mail-status'));
-                console.log('domready');
+            });
+
+            ipc.on('INBOX_CHANGE', (e) => {
+                // console.log('pingping', Date.now());
+                statusView.reloadIgnoringCache();
             });
 
             // create menubar app menu

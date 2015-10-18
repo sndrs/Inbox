@@ -38,7 +38,7 @@ app.on('ready', function() {
 
     mainWindow.loadUrl(`file://${__dirname}/webview.html`);
 
-    mainWindow.openDevTools();
+    // mainWindow.openDevTools();
 
     mainWindow.on('close', () => {
         fs.writeFileSync(initPath, JSON.stringify(mainWindow.getBounds()));
@@ -58,14 +58,16 @@ app.on('ready', function() {
 });
 
 ipc.on('INBOX_CHANGE', (e) => {
-    mainWindow.webContents.send('INBOX_CHANGE')
+    // console.log('inbox has changed');
+    mainWindow.webContents.send('INBOX_CHANGE');
 });
 
 ipc.on('MAIL_STATUS', (e, data) => {
-    console.log(data);
-    app.dock.setBadge(data.count);
-    focussed || data.mail.filter((mail => !unreadMail.any((_mail) => _mail == mail))).forEach((newMail) => {
-        mainWindow.webContents.send('notify', {
+    // console.log(data);
+    app.dock.setBadge(data.count > 0 ? data.count : '');
+
+    !focussed && data.mail.filter((mail => !unreadMail.some((_mail) => _mail.id === mail.id))).forEach((newMail) => {
+        mainWindow.webContents.send('NOTIFY', {
             title: newMail.subject,
             body: newMail.sender
         });
