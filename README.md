@@ -1,8 +1,11 @@
 ![icon](https://raw.githubusercontent.com/sndrs/Inbox/master/app/icon.png)
 
-Desktop app that wraps [Inbox by Gmail](https://inbox.google.com), providing some OS niceties like notifications, a dock icon and badgeing etc.
+Desktop app for [Inbox by Gmail](https://inbox.google.com) that adds OS integration:
 
-It's very, very early stages of development, but I'm using it.
+- system notifications
+- a dock icon with unread count
+
+It's still in development, but it should be stable enough. I use it everyday.
 
 ## Installation
 
