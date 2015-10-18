@@ -1,8 +1,5 @@
 {
   "name": "inbox",
-  "scripts": {
-    "build": ""
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sndrs/Inbox.git"
@@ -18,5 +15,7 @@
   },
   "dependencies": {
     "electron-prebuilt": "^0.33.7"
-  }
+  },
+  "description": "Desktop app for Inbox by Gmail that adds OS integration",
+  "version": "0.1.0"
 }
