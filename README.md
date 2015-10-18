@@ -11,7 +11,7 @@ It's still in development, but it should be stable enough (I use it everyday).
 
 ## Installation
 
-There's no downloadable app yet, you'll need to build it yourself for now.
+An OS X app is available from the [releases page](https://github.com/sndrs/Inbox/releases/). For Windows or Linux, you'll need to build it yourself.
 
 That's pretty easy though. Checkout the repo, then:
 
