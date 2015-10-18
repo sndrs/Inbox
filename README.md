@@ -2,8 +2,8 @@
 
 Desktop app for [Inbox by Gmail](https://inbox.google.com) that adds OS integration:
 
-- system notifications
-- a dock icon with unread count
+- new mail notifications
+- unread count in the dock
 
 ![badge example](https://raw.githubusercontent.com/sndrs/Inbox/master/badge-example.png)
 
