@@ -17,7 +17,7 @@ For Windows or Linux, you'll need to build it yourself.
 
 That should be pretty easy though. Checkout the repo, then:
 
-`install install`
+`make install`
 
 `make bundle`
 
