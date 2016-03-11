@@ -17,5 +17,5 @@
     "electron-prebuilt": "^0.36.10"
   },
   "description": "Desktop app for Inbox by Gmail that adds OS integration",
-  "version": "0.1.1"
+  "version": "0.1.2"
 }
