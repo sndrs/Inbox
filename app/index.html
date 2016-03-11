@@ -28,7 +28,7 @@
 
     <body>
         <webview src="https://mail.google.com/mail/feed/atom" preload="./get-mail-status.js" id="status-view"></webview>
-        <webview src="https://inbox.google.com" preload="./change-observer.js" allowpopups plugins autosize="on" id="mail-view"></webview>
+        <webview src="https://inbox.google.com" preload="./change-observer.js" plugins autosize="on" id="mail-view"></webview>
         <script>
             const ipc = require('electron').ipcRenderer;
 
