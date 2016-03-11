@@ -1,0 +1,6 @@
+{
+  "main": "main.js",
+  "dependencies": {
+    "lodash.debounce": "^4.0.3"
+  }
+}

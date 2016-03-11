@@ -1,8 +1,12 @@
 default:
-	@./node_modules/.bin/electron ./src
+	@./node_modules/.bin/electron ./app
+
+install:
+	@npm i && npm prune
+	@cd app && npm i && npm prune
 
 bundle:
-	@./node_modules/.bin/electron-packager ./src "Inbox" \
+	@./node_modules/.bin/electron-packager ./app "Inbox" \
 		--platform=darwin \
 		--arch=all \
 		--icon=./icon.icns \

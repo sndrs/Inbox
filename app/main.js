@@ -9,7 +9,7 @@ const fs = require('fs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow = null, focussed = true, unreadMail = [];
+let mainWindow = null, unreadMail = [];
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -19,13 +19,15 @@ app.on('window-all-closed', () => {
 app.on('ready', function() {
     const initPath = path.join(app.getPath('appData'), "init.json");
     let bounds = {};
+
     try {
         bounds = JSON.parse(fs.readFileSync(initPath, 'utf8'));
     } catch (e) {};
 
+    // merge defaults with any saved window data
     mainWindow = new BrowserWindow(Object.assign({
-        'min-width': 620,
-        'title-bar-style': 'hidden',
+        minWidth: 620,
+        titleBarStyle: 'hidden',
         show: false
     }, bounds));
 
@@ -37,6 +39,7 @@ app.on('ready', function() {
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 
+    // remember window position and dimensions on close
     mainWindow.on('close', () => {
         fs.writeFileSync(initPath, JSON.stringify(mainWindow.getBounds()));
     });
@@ -44,21 +47,13 @@ app.on('ready', function() {
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
-
-    mainWindow.on('focus', () => {
-        focussed = true;
-    });
-
-    mainWindow.on('blur', () => {
-        focussed = false;
-    })
 });
 
 ipc.on('MAIL_STATUS', (e, data) => {
-    console.log('mail status changed', data.count);
     app.dock.setBadge(data.count > 0 ? data.count : '');
 
-    !focussed && data.mail.filter((mail => !unreadMail.some((_mail) => _mail.id === mail.id))).forEach((newMail) => {
+    // send a notification if the window is not focussed
+    mainWindow.isFocused() || data.mail.filter((mail => !unreadMail.some((_mail) => _mail.id === mail.id))).forEach((newMail) => {
         mainWindow.webContents.send('NOTIFY', {
             title: newMail.subject,
             body: newMail.sender,

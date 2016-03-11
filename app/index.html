@@ -4,25 +4,25 @@
     <head>
         <title>Inbox</title>
         <style>
-        body {
-            background-color: #4285f4;
-        }
+            body {
+                background-color: #4285f4;
+            }
 
-        #mail-view {
-            position: absolute;
-            top: 22px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: 0;
-            transition: opacity 200ms;
-        }
+            #mail-view {
+                position: absolute;
+                top: 22px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                opacity: 0;
+                transition: opacity 200ms;
+            }
 
-        #status-view {
-            visibility: hidden;
-            position: absolute;
-            bottom: 0;
-        }
+            #status-view {
+                visibility: hidden;
+                position: absolute;
+                bottom: 0;
+            }
         </style>
     </head>
 
@@ -49,7 +49,6 @@
             });
 
             mailView.addEventListener('ipc-message', (event, data) => {
-                // console.log(event);
                 switch (event.channel) {
                     case 'INBOX_CHANGE':
                         // get mail count from gmail, but give it 1000ms to update
@@ -64,12 +63,24 @@
                 new Notification(message.title, message);
             });
 
+            require('./set-menu')();
+
+            // DEBUG
+
             // statusView.addEventListener('dom-ready', () => {
             //     statusView.openDevTools();
             // });
 
             // mailView.addEventListener('dom-ready', () => {
             //     mailView.openDevTools();
+            // });
+
+            // mailView.addEventListener('console-message', function(e) {
+            //       console.log('webview:', e);
+            // });
+
+            // statusView.addEventListener('console-message', function(e) {
+            //       console.log('statusview:', e);
             // });
         </script>
     </body>

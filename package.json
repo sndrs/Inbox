@@ -14,8 +14,7 @@
     "electron-packager": "^5.2.1"
   },
   "dependencies": {
-    "electron-prebuilt": "^0.36.10",
-    "lodash.debounce": "^4.0.3"
+    "electron-prebuilt": "^0.36.10"
   },
   "description": "Desktop app for Inbox by Gmail that adds OS integration",
   "version": "0.1.1"
