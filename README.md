@@ -17,7 +17,7 @@ For Windows or Linux, you'll need to build it yourself.
 
 That's pretty easy though. Checkout the repo, then:
 
-`make install`
+`npm install`
 
 `make bundle`
 

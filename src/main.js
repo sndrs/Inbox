@@ -1,12 +1,11 @@
-'use babel';
+'use strict';
 
-import app from 'app';
-import ipc from 'ipc';
-import BrowserWindow from 'browser-window';
-import path from "path";
-import fs from "fs";
+const ipc = require('electron').ipcMain;
+const app = require('electron').app;  // Module to control application life.
+const BrowserWindow = require('electron').BrowserWindow;  // Module to create native browser window.
 
-require('crash-reporter').start();
+const path = require('path');
+const fs = require('fs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -17,10 +16,8 @@ app.on('window-all-closed', () => {
     app.quit();
 });
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
 app.on('ready', function() {
-    const initPath = path.join(app.getDataPath(), "init.json");
+    const initPath = path.join(app.getPath('appData'), "init.json");
     let bounds = {};
     try {
         bounds = JSON.parse(fs.readFileSync(initPath, 'utf8'));
@@ -32,13 +29,13 @@ app.on('ready', function() {
         show: false
     }, bounds));
 
+    // mainWindow.openDevTools();
+
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.show();
     });
 
-    mainWindow.loadUrl(`file://${__dirname}/webview.html`);
-
-    // mainWindow.openDevTools();
+    mainWindow.loadURL(`file://${__dirname}/index.html`);
 
     mainWindow.on('close', () => {
         fs.writeFileSync(initPath, JSON.stringify(mainWindow.getBounds()));
@@ -57,19 +54,15 @@ app.on('ready', function() {
     })
 });
 
-ipc.on('INBOX_CHANGE', (e) => {
-    // console.log('inbox has changed');
-    mainWindow.webContents.send('INBOX_CHANGE');
-});
-
 ipc.on('MAIL_STATUS', (e, data) => {
-    // console.log(data);
+    console.log('mail status changed', data.count);
     app.dock.setBadge(data.count > 0 ? data.count : '');
 
     !focussed && data.mail.filter((mail => !unreadMail.some((_mail) => _mail.id === mail.id))).forEach((newMail) => {
         mainWindow.webContents.send('NOTIFY', {
             title: newMail.subject,
-            body: newMail.sender
+            body: newMail.sender,
+            silent: true
         });
     });
     unreadMail = data.mail;
