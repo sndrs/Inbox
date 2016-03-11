@@ -9,8 +9,8 @@ bundle:
 	@./node_modules/.bin/electron-packager ./app "Inbox" \
 		--platform=darwin \
 		--arch=all \
-		--version=0.33.7 \
 		--icon=./icon.icns \
 		--overwrite \
 		--asar=true \
-		&& open Inbox-darwin-x64/Inbox.app
+		--out=build \
+		&& open build/Inbox-darwin-x64/Inbox.app

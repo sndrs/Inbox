@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Inbox</title>
+        <style>
+            body {
+                background-color: #4285f4;
+            }
+
+            #mail-view {
+                position: absolute;
+                top: 22px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                opacity: 0;
+                transition: opacity 200ms;
+            }
+
+            #status-view {
+                visibility: hidden;
+                position: absolute;
+                bottom: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <webview src="https://mail.google.com/mail/feed/atom" preload="./get-mail-status.js" id="status-view"></webview>
+        <webview src="https://inbox.google.com" preload="./change-observer.js" allowpopups plugins autosize="on" id="mail-view"></webview>
+        <script>
+            const ipc = require('electron').ipcRenderer;
+
+            const statusView = document.getElementById('status-view');
+            const mailView = document.getElementById('mail-view');
+
+            // show webview once there's a response of some kind
+            mailView.addEventListener('did-get-response-details', showMailView);
+
+            function showMailView () {
+                mailView.style.opacity = 1;
+                mailView.removeEventListener('did-get-response-details', showMailView);
+            };
+
+            // handle links in emails
+            mailView.addEventListener('new-window', (e) => {
+                require('electron').shell.openExternal(e.url);
+            });
+
+            mailView.addEventListener('ipc-message', (event, data) => {
+                switch (event.channel) {
+                    case 'INBOX_CHANGE':
+                        // get mail count from gmail, but give it 1000ms to update
+                        setTimeout(() => {
+                            statusView.reloadIgnoringCache();
+                        }, 1000);
+                };
+            });
+
+            ipc.on('NOTIFY', (event, message) => {
+                Notification.requestPermission();
+                new Notification(message.title, message);
+            });
+
+            require('./set-menu')();
+
+            // DEBUG
+
+            // statusView.addEventListener('dom-ready', () => {
+            //     statusView.openDevTools();
+            // });
+
+            // mailView.addEventListener('dom-ready', () => {
+            //     mailView.openDevTools();
+            // });
+
+            // mailView.addEventListener('console-message', function(e) {
+            //       console.log('webview:', e);
+            // });
+
+            // statusView.addEventListener('console-message', function(e) {
+            //       console.log('statusview:', e);
+            // });
+        </script>
+    </body>
+
+</html>

@@ -1,7 +1,7 @@
-const remote = require('remote');
-const app = remote.require('app');
-const Menu = remote.require('menu');
-const MenuItem = remote.require('menu-item');
+const remote = require('electron').remote;
+const Menu = remote.Menu;
+const MenuItem = remote.MenuItem;
+const app = remote.require('electron').app;
 
 var template = [{
     label: 'Edit',
@@ -84,7 +84,7 @@ var template = [{
     submenu: [{
         label: 'Learn More',
         click: function() {
-            require('shell').openExternal('http://electron.atom.io')
+            require('shell').openExternal('https://github.com/sndrs/Inbox')
         }
     }, ]
 }, ];
@@ -135,4 +135,7 @@ if (process.platform === 'darwin') {
 }
 
 menu = Menu.buildFromTemplate(template);
-Menu.setApplicationMenu(menu);
+
+module.exports = () => {
+    Menu.setApplicationMenu(menu);
+}
