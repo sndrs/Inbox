@@ -15,9 +15,9 @@ It's still in development, but it should be stable enough (I use it everyday).
 
 For Windows or Linux, you'll need to build it yourself.
 
-That's pretty easy though. Checkout the repo, then:
+That should be pretty easy though. Checkout the repo, then:
 
-`npm install`
+`install install`
 
 `make bundle`
 
