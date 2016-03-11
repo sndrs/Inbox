@@ -13,13 +13,13 @@ It's still in development, but it should be stable enough (I use it everyday).
 
 <a href="https://github.com/sndrs/Inbox/releases/latest">Download Inbox for OS X</a>.
 
-To build for OS X, clone the repo, then:
+To build it for OS X, clone the repo, then:
 
 `make install`
 
 `make bundle`
 
-For Windows or Linux, you'll need to build it yourself.
+There's currently no binary for Windows or Linux, you'll need to build it yourself.
 
 That should be pretty easy though – take a look at the build options for [electron-packager](https://www.npmjs.com/package/electron-packager) (and then maybe submit a little PR if you get it working nicely :wink:)
 
