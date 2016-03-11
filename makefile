@@ -12,4 +12,5 @@ bundle:
 		--icon=./icon.icns \
 		--overwrite \
 		--asar=true \
-		&& open Inbox-darwin-x64/Inbox.app
+		--out=build \
+		&& open build/Inbox-darwin-x64/Inbox.app
