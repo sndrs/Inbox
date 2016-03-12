@@ -32,6 +32,7 @@ app.on('ready', function() {
     }, bounds));
 
     // mainWindow.openDevTools();
+    console.log(app);
 
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.show();
@@ -50,6 +51,7 @@ app.on('ready', function() {
 });
 
 ipc.on('MAIL_STATUS', (e, data) => {
+    console.log('setting dock badge');
     app.dock.setBadge(data.count > 0 ? data.count : '');
 
     // send a notification if the window is not focussed

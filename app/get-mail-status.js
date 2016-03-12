@@ -1,5 +1,6 @@
 ((document) => {
     document.addEventListener('DOMContentLoaded', () => {
+        console.log('MAIL_STATUS', document.querySelector('fullcount').textContent);
         const ipc = require('electron').ipcRenderer;
         ipc.send('MAIL_STATUS', {
             count: document.querySelector('fullcount').textContent,

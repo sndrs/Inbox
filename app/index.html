@@ -51,10 +51,10 @@
             mailView.addEventListener('ipc-message', (event, data) => {
                 switch (event.channel) {
                     case 'INBOX_CHANGE':
-                        // get mail count from gmail, but give it 1000ms to update
+                        // get mail count from gmail, but give it 100ms to update
                         setTimeout(() => {
                             statusView.reloadIgnoringCache();
-                        }, 1000);
+                        }, 100);
                 };
             });
 
