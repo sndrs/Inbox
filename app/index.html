@@ -8,6 +8,15 @@
                 background-color: #4285f4;
             }
 
+            #dragger {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 22px;
+                -webkit-app-region: drag;
+            }
+
             #mail-view {
                 position: absolute;
                 top: 22px;
@@ -27,6 +36,7 @@
     </head>
 
     <body>
+        <div id="dragger"></div>
         <webview src="https://mail.google.com/mail/feed/atom" preload="./get-mail-status.js" id="status-view"></webview>
         <webview src="https://inbox.google.com" preload="./change-observer.js" plugins autosize="on" id="mail-view"></webview>
         <script>

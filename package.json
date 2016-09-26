@@ -11,10 +11,10 @@
   },
   "homepage": "https://github.com/sndrs/Inbox#readme",
   "devDependencies": {
-    "electron-packager": "^5.2.1"
+    "electron-packager": "^8.0.0"
   },
   "dependencies": {
-    "electron-prebuilt": "^0.36.10"
+    "electron-prebuilt": "^1.4.1"
   },
   "description": "Desktop app for Inbox by Gmail that adds OS integration",
   "version": "0.1.2"
